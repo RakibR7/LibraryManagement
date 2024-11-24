@@ -55,4 +55,16 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/{userId}/borrow")
+    public ResponseEntity<String> borrowBook(@PathVariable Long userId, @RequestParam Long bookId) {
+        boolean success = userService.borrowBook(userId, bookId);
+        return success ? ResponseEntity.ok("Book borrowed successfully.") : ResponseEntity.badRequest().body("Book is not available or user not found.");
+    }
+
+    @PostMapping("/{userId}/return")
+    public ResponseEntity<String> returnBook(@PathVariable Long userId, @RequestParam Long bookId) {
+        boolean success = userService.returnBook(userId, bookId);
+        return success ? ResponseEntity.ok("Book returned successfully.") : ResponseEntity.badRequest().body("Book return failed.");
+    }
 }

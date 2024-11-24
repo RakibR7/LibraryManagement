@@ -1,15 +1,20 @@
 package atu.ie.librarymanagement;
 
-import atu.ie.librarymanagement.entity.User;
-import atu.ie.librarymanagement.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     public User registerUser(User user) {
         return userRepository.save(user);
@@ -20,10 +25,18 @@ public class UserService {
     }
 
     public User updateUser(Long id, User updatedUser) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        user.setBorrowingHistory(updatedUser.getBorrowingHistory());
-        return userRepository.save(user);
+        if (userRepository.existsById(id)) {
+            updatedUser.setId(id);
+            return userRepository.save(updatedUser);
+        }
+        return null;
+    }
+
+    public boolean deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

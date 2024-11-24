@@ -1,0 +1,7 @@
+POST http://localhost:8080/api/users/register
+
+GET  http://localhost:8080/api/users/{id}
+
+PUT/EDIT http://localhost:8080/api/users/update/{id}
+
+DELETE http://localhost:8080/api/users/delete/{id}

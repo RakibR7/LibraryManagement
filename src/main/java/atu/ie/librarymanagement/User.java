@@ -34,5 +34,5 @@ public class User {
     private String password;
 
     @NotNull(message = "Borrowing history cannot be null")
-    private List<Long> borrowingHistory = new ArrayList<>();
+    private List<Long> borrowedBooks = new ArrayList<>();
 }

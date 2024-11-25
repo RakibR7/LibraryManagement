@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @RestController
@@ -66,5 +67,13 @@ public class UserController {
     public ResponseEntity<String> returnBook(@PathVariable Long userId, @RequestParam Long bookId) {
         boolean success = userService.returnBook(userId, bookId);
         return success ? ResponseEntity.ok("Book returned successfully.") : ResponseEntity.badRequest().body("Book return failed.");
+    }
+
+
+    @GetMapping("/{userId}/recommendations")
+    public ResponseEntity<ResponseEntity<List<Book>>> getRecommendations(@PathVariable Long userId) {
+        UserController recommendationService = null;
+        ResponseEntity<List<Book>> recommendedBooks = recommendationService.getRecommendations(userId).getBody();
+        return ResponseEntity.ok(recommendedBooks);
     }
 }

@@ -15,6 +15,9 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private RabbitMQProducer rabbitMQProducer;
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;

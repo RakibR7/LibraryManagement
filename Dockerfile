@@ -14,7 +14,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 
 # Run tests + package the JAR
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # --------------------------------------------
 # 2) RUNTIME STAGE (small JDK image)

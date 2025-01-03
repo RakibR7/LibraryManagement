@@ -1,34 +1,32 @@
 package atu.ie.librarymanagement;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RabbitMQProducer {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
-    // Corrected: Non-static method to send a recommendation message
+    public RabbitMQProducer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+    public void sendBorrowBookMessage(Long userId, Long bookId) {
+        String message = userId + "," + bookId;
+        // This sends the message to "borrow.book.queue"
+        rabbitTemplate.convertAndSend("borrow.book.queue", message);
+        // Optionally log or do something else
+    }
+
+    public void sendReturnBookMessage(Long userId, Long bookId) {
+        String message = userId + "," + bookId;
+        rabbitTemplate.convertAndSend("return.book.queue", message);
+    }
+
     public void sendRecommendationMessage(Long userId, Long bookId, String action) {
+        // e.g., "userId,bookId,borrow" or "userId,bookId,return"
         String message = userId + "," + bookId + "," + action;
         rabbitTemplate.convertAndSend("recommendation.queue", message);
     }
-
-
-    public boolean borrowBook(Long userId, Long bookId) {
-        String message = userId + "," + bookId; // Simple comma-separated message
-        rabbitTemplate.convertAndSend("borrow.book.queue", message);
-        sendRecommendationMessage(userId, bookId, "borrow");
-        return true;
-    }
-
-    public boolean returnBook(Long userId, Long bookId) {
-        String message = userId + "," + bookId;
-        rabbitTemplate.convertAndSend("return.book.queue", message);
-        sendRecommendationMessage(userId, bookId, "return");
-        return true;
-    }
 }
-

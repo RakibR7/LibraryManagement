@@ -12,9 +12,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final RabbitMQProducer rabbitMQProducer;
 
-    public UserController(UserService userService) {
+    // Combined constructor for dependency injection
+    public UserController(UserService userService, RabbitMQProducer rabbitMQProducer) {
         this.userService = userService;
+        this.rabbitMQProducer = rabbitMQProducer;
     }
 
     @GetMapping
@@ -55,21 +58,24 @@ public class UserController {
 
     @PostMapping("/{userId}/borrow")
     public ResponseEntity<String> borrowBook(@PathVariable Long userId, @RequestParam Long bookId) {
+        // Send a RabbitMQ message for borrowing a book
+        rabbitMQProducer.sendBorrowBookMessage(userId, bookId);
         boolean success = userService.borrowBook(userId, bookId);
-        return success ? ResponseEntity.ok("Book borrowed successfully.") : ResponseEntity.badRequest().body("Book is not available or user not found.");
+        return success ? ResponseEntity.ok("Book borrowed successfully. Message sent to RabbitMQ.") : ResponseEntity.badRequest().body("Book is not available or user not found.");
     }
 
     @PostMapping("/{userId}/return")
     public ResponseEntity<String> returnBook(@PathVariable Long userId, @RequestParam Long bookId) {
+        // Send a RabbitMQ message for returning a book
+        rabbitMQProducer.sendReturnBookMessage(userId, bookId);
         boolean success = userService.returnBook(userId, bookId);
-        return success ? ResponseEntity.ok("Book returned successfully.") : ResponseEntity.badRequest().body("Book return failed.");
+        return success ? ResponseEntity.ok("Book returned successfully. Message sent to RabbitMQ.") : ResponseEntity.badRequest().body("Book return failed.");
     }
 
-
     @GetMapping("/{userId}/recommendations")
-    public ResponseEntity<ResponseEntity<List<Book>>> getRecommendations(@PathVariable Long userId) {
-        UserController recommendationService = null;
-        ResponseEntity<List<Book>> recommendedBooks = recommendationService.getRecommendations(userId).getBody();
-        return ResponseEntity.ok(recommendedBooks);
+    public ResponseEntity<List<Book>> getRecommendations(@PathVariable Long userId) {
+        // Logic to fetch recommendations (to be implemented in service or injected service)
+        // Dummy response for now
+        return ResponseEntity.ok(List.of()); // Return an empty list or actual recommendation logic
     }
 }

@@ -6,19 +6,18 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-    @Bean
-    public Queue recommendationQueue() {
-        return new Queue("recommendation.queue", true);
-    }
+    public static final String BORROW_BOOK_QUEUE = "borrow.book.queue";
+    public static final String RETURN_BOOK_QUEUE = "return.book.queue";
 
     @Bean
     public Queue borrowBookQueue() {
-        return new Queue("borrow.book.queue", true);
+        // Define the borrow book queue (durable queue)
+        return new Queue(BORROW_BOOK_QUEUE, true);
     }
 
     @Bean
     public Queue returnBookQueue() {
-        return new Queue("return.book.queue", true);
+        // Define the return book queue (durable queue)
+        return new Queue(RETURN_BOOK_QUEUE, true);
     }
 }
-

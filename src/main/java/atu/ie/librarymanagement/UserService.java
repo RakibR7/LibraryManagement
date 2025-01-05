@@ -56,7 +56,7 @@ public class UserService {
 
         if (user != null) {
             // Call Book Service to check availability and mark the book as borrowed
-            String bookServiceUrl = "http://localhost:8081/api/books/" + bookId + "/borrow";
+            String bookServiceUrl = "http://libraryhub:8081/api/books/" + bookId + "/borrow";
             ResponseEntity<Boolean> response = restTemplate.postForEntity(bookServiceUrl, null, Boolean.class);
 
             if (response.getBody() != null && response.getBody()) {
@@ -73,7 +73,7 @@ public class UserService {
 
         if (user != null && user.getBorrowedBooks().contains(bookId)) {
             // Call Book Service to mark the book as returned
-            String bookServiceUrl = "http://localhost:8081/api/books/" + bookId + "/return";
+            String bookServiceUrl = "http://libraryhub:8081/api/books/" + bookId + "/return";
             restTemplate.postForEntity(bookServiceUrl, null, Void.class);
 
             user.getBorrowedBooks().remove(bookId);

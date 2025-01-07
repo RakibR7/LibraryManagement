@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librarymanagement-deployment
+  labels:
+    app: librarymanagement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: librarymanagement
+  template:
+    metadata:
+      labels:
+        app: librarymanagement
+    spec:
+      containers:
+        - name: librarymanagement
+          image: your-dockerhub-username/librarymanagement:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/library_db
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: mysqlpassword
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq

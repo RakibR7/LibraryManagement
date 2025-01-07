@@ -25,15 +25,15 @@ jobs:
       # each in its own directory if they're separated.
 
       - name: Build & Test LibraryManagement
-        working-directory: ./LibraryManagement
+        working-directory: LibraryManagement
         run: mvn clean package
 
       - name: Build & Test LibraryHub
-        working-directory: ./LibraryHub
+        working-directory: LibraryHub
         run: mvn clean package
 
       - name: Build & Test LibraryAdvisor
-        working-directory: ./LibraryAdvisor
+        working-directory: LibraryAdvisor
         run: mvn clean package
 
   # We can define another job to build Docker images and push them to a registry

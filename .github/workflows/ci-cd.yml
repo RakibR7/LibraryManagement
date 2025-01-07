@@ -20,19 +20,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # Build + Test LibraryManagement
       - name: Build & Test LibraryManagement
-        working-directory: LibraryManagement
-        run: mvn clean package
-
-      # Build + Test LibraryHub
-      - name: Build & Test LibraryHub
-        working-directory: LibraryHub
-        run: mvn clean package
-
-      # Build + Test LibraryAdvisor
-      - name: Build & Test LibraryAdvisor
-        working-directory: LibraryAdvisor
         run: mvn clean package
 
   docker-publish:
@@ -49,9 +37,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # Build Docker Image for LibraryManagement
       - name: Build Docker Image for LibraryManagement
-        working-directory: LibraryManagement
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/librarymanagement:latest .
           docker tag ${{ secrets.DOCKERHUB_USERNAME }}/librarymanagement:latest ${{ secrets.DOCKERHUB_USERNAME }}/librarymanagement:${{ github.run_number }}
@@ -60,27 +46,3 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/librarymanagement:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/librarymanagement:${{ github.run_number }}
-
-      # Build Docker Image for LibraryHub
-      - name: Build Docker Image for LibraryHub
-        working-directory: LibraryHub
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/libraryhub:latest .
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/libraryhub:latest ${{ secrets.DOCKERHUB_USERNAME }}/libraryhub:${{ github.run_number }}
-
-      - name: Push LibraryHub Image
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/libraryhub:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/libraryhub:${{ github.run_number }}
-
-      # Build Docker Image for LibraryAdvisor
-      - name: Build Docker Image for LibraryAdvisor
-        working-directory: LibraryAdvisor
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/libraryadvisor:latest .
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/libraryadvisor:latest ${{ secrets.DOCKERHUB_USERNAME }}/libraryadvisor:${{ github.run_number }}
-
-      - name: Push LibraryAdvisor Image
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/libraryadvisor:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/libraryadvisor:${{ github.run_number }}

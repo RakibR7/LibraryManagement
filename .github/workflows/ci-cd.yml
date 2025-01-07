@@ -22,12 +22,12 @@ jobs:
 
       # Build + Test LibraryManagement
       - name: Build & Test LibraryManagement
-        working-directory: ./LibraryManagement
+        working-directory: ./JavaFinalYear/LibraryManagement
         run: mvn clean package
 
       # Build + Test LibraryHub
       - name: Build & Test LibraryHub
-        working-directory: ./LibraryHub
+        working-directory: ./JavaFinalYear/LibraryHub
         run: mvn clean package
 
       # Build + Test LibraryAdvisor

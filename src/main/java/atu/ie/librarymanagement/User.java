@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,17 +21,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank(message = "Name is mandatory")
     private String name;
-
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is mandatory")
     private String email;
-
     @NotBlank(message = "Password is mandatory")
     private String password;
-
     @NotNull(message = "Borrowing history cannot be null")
     private List<Long> borrowedBooks = new ArrayList<>();
 }

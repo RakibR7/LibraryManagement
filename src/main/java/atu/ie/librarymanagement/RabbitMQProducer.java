@@ -12,13 +12,11 @@ public class RabbitMQProducer {
     }
 
     public void sendBorrowBookMessage(Long userId, Long bookId) {
-        // Very simple text message, e.g. "userId,bookId"
         String message = "Borrowed: User " + userId + ", Book " + bookId;
         rabbitTemplate.convertAndSend(RabbitMQConfig.BORROW_BOOK_QUEUE, message);
     }
 
     public void sendReturnBookMessage(Long userId, Long bookId) {
-        // Very simple text message, e.g. "userId,bookId"
         String message = "Returned: User " + userId + ", Book " + bookId;
         rabbitTemplate.convertAndSend(RabbitMQConfig.RETURN_BOOK_QUEUE, message);
     }

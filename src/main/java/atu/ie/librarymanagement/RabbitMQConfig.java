@@ -11,13 +11,11 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue borrowBookQueue() {
-        // Define the borrow book queue (durable queue)
         return new Queue(BORROW_BOOK_QUEUE, true);
     }
 
     @Bean
     public Queue returnBookQueue() {
-        // Define the return book queue (durable queue)
         return new Queue(RETURN_BOOK_QUEUE, true);
     }
 }

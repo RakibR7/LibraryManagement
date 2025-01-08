@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "CICD_Workflow" ]
+    branches: [ "main", "Kubernetes" ]
   pull_request:
-    branches: [ "main", "CICD_Workflow" ]
+    branches: [ "main", "Kubernetes" ]
 
 jobs:
   build-and-test:
